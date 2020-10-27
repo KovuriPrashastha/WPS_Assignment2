@@ -25,4 +25,8 @@ public class MySQLBean
 			return false;
 		}
 	}
+	public boolean islogged(String username) {
+		
+		return true;
+	}
 }
