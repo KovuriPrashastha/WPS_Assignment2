@@ -28,24 +28,22 @@ public class thrirdpage extends HttpServlet {
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
 		CheckAuthenticationServelet obj = new CheckAuthenticationServelet();
 		String username =  obj.getUser();
 		String password = obj.getPassword();
 		PrintWriter out=response.getWriter();
-		//DB code
 		MySQLDBCon obj2 = new MySQLDBCon();
-		Boolean result= obj2.authenticate(username, password);
-		out.print("Hello Mr."+username);		
+		Boolean result= obj2.authenticate(username, password);		
 		if(result) {
 			RequestDispatcher rd =request.getRequestDispatcher("/thirdpage.html");
 			rd.forward(request, response);
 		}
 		else {
-			out.print("<b>Invalid Credentials:"+username);
-			RequestDispatcher rd =request.getRequestDispatcher("/index.html");
+			out.print("Login to view thid page");
+			RequestDispatcher rd =request.getRequestDispatcher("/login.html");
 			rd.include(request, response);
 		}
 	}
