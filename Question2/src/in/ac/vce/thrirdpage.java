@@ -1,6 +1,9 @@
 package in.ac.vce;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,12 +28,26 @@ public class thrirdpage extends HttpServlet {
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		MySQLBean bean=new MySQLBean();
-		String username=request.getParameter("username");
-		bean.checkLogged(username);
-		// TODO Auto-generated method stub
+		
+		CheckAuthenticationServelet obj = new CheckAuthenticationServelet();
+		String username =  obj.getUser();
+		String password = obj.getPassword();
+		PrintWriter out=response.getWriter();
+		//DB code
+		MySQLDBCon obj2 = new MySQLDBCon();
+		Boolean result= obj2.authenticate(username, password);
+		out.print("Hello Mr."+username);		
+		if(result) {
+			RequestDispatcher rd =request.getRequestDispatcher("/thirdpage.html");
+			rd.forward(request, response);
+		}
+		else {
+			out.print("<b>Invalid Credentials:"+username);
+			RequestDispatcher rd =request.getRequestDispatcher("/index.html");
+			rd.include(request, response);
+		}
 	}
 
 	/**
@@ -44,9 +61,9 @@ public class thrirdpage extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		// TODO Auto-generated method stub
+//		doGet(request, response);
+//	}
 
 }

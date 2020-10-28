@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(
 		description = "Performs authentication based on user inputs", 
 		urlPatterns = { "/auth" }, 
-		initParams = { 
-				@WebInitParam(name = "x", value = "10")
-		})
-public class AuthenticationServelet extends HttpServlet {
+		
+public class CheckAuthenticationServelet extends HttpServlet {
+	static String username,password;
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -50,25 +50,31 @@ public class AuthenticationServelet extends HttpServlet {
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// read content from user
-				String username=request.getParameter("username");
-				String password=request.getParameter("password");
+				username=request.getParameter("username");
+				password=request.getParameter("password");
 				
 				PrintWriter out=response.getWriter();
-				//DB code
-				MySQLBean bean=new MySQLBean();
-				Boolean result= bean.authenticate(username, password);
-				out.print("Mr."+username);
-				//response		
+		
+				MySQLDBCon obj = new MySQLDBCon();
+				Boolean result = obj.authenticate(username, password);
+				out.print(" Hello Mr/Ms."+username);
+				
+				
 				if(result) {
 					RequestDispatcher rd =request.getRequestDispatcher("/inbox.html");
 					rd.forward(request, response);
 				}
 				else {
-					out.print("<b style='color:red'>Invalid Credentials:"+username);
+					out.print("<b>Invalid Credentials: "+username);
 					RequestDispatcher rd =request.getRequestDispatcher("/index.html");
 					rd.include(request, response);
 				}
+	}
+	public String getUser() {
+		return username;
+	}
+	public String getPassword() {
+		return password;
 	}
 
 	/**
