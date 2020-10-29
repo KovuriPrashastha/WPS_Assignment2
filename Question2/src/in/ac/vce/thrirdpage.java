@@ -43,7 +43,7 @@ public class thrirdpage extends HttpServlet {
 		}
 		else {
 			out.print("Login to view thid page");
-			RequestDispatcher rd =request.getRequestDispatcher("/login.html");
+			RequestDispatcher rd =request.getRequestDispatcher("/index.html");
 			rd.include(request, response);
 		}
 	}
