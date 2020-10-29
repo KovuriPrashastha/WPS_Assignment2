@@ -37,11 +37,11 @@ public class thrirdpage extends HttpServlet {
 		CheckAuthenticationServelet obj = new CheckAuthenticationServelet();
 		/*String username =  obj.getUser();
 		String password = obj.getPassword();*/
-			javax.servlet.http.Cookie[] c = request.getCookies();
+		javax.servlet.http.Cookie[] c = request.getCookies();
 		String username = c[0].getValue();
 		String password = c[1].getValue();
-		username=request.getParameter("username");
-		password=request.getParameter("password");
+		//username=request.getParameter("username");
+		//password=request.getParameter("password");
 		Cookie c1 = new Cookie("username",username);
 		Cookie c2 = new Cookie("password",password);
 		response.addCookie(c1);
