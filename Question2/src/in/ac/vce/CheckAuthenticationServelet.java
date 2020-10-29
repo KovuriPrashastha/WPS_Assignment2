@@ -8,6 +8,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +53,10 @@ public class CheckAuthenticationServelet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				username=request.getParameter("username");
 				password=request.getParameter("password");
-				
+				Cookie c1 = new Cookie("username",username);
+				Cookie c2 = new Cookie("password",password);
+				response.addCookie(c1);
+				response.addCookie(c2);
 				PrintWriter out=response.getWriter();
 		
 				MySQLDBCon obj = new MySQLDBCon();
